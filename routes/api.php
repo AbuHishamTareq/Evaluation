@@ -1,17 +1,23 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CenterController;
 use App\Http\Controllers\CenterSurveyResponseController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DomainController;
 use App\Http\Controllers\DynamicTableController;
 use App\Http\Controllers\EltController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\MedicationController;
+use App\Http\Controllers\NationalityController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\RankController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\SectorController;
+use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\TbcController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ZoneController;
@@ -56,12 +62,14 @@ Route::middleware(['web', 'auth:sanctum'])->group(function () {
     Route::post('/elts/create', [EltController::class, 'create'])->name('elts.create');
     Route::put('/elts/edit/{elt}', [EltController::class, 'edit'])->name('elts.edit');
     Route::delete('/elts/delete/{elt}', [EltController::class, 'destroy'])->name('elts.destroy');
+    Route::get('/elts/clusters', [EltController::class, 'clusters'])->name('elts.clusters');
 
     // Zones
     Route::get('/zones', [ZoneController::class, 'zones'])->name('zones')->middleware('permission:access-zone-module');
     Route::post('/zones/create', [ZoneController::class, 'create'])->name('zones.create');
     Route::put('/zones/edit/{zone}', [ZoneController::class, 'edit'])->name('zones.edit');
     Route::delete('/zones/delete/{zone}', [ZoneController::class, 'destroy'])->name('zones.destroy');
+    Route::get('/elts/clusters/{clusterId}/zones', [ZoneController::class, 'zonesByCluster'])->name('elts.clusters.zones');
 
     // Primary Health Care
     Route::get('/centers', [CenterController::class, 'centers'])->name('centers')->middleware('permission:access-center-module');
@@ -76,6 +84,7 @@ Route::middleware(['web', 'auth:sanctum'])->group(function () {
     Route::post('/centers/{center}/assign-team-codes', [CenterController::class, 'assignTeamCodes']);
     Route::get('/centers/team-based-codes', [CenterController::class, 'getTeamBasedCodes']);
     Route::get('/centers/{center}/team-codes', [CenterController::class, 'getAssignedTeamCodes']);
+    Route::get('/elts/clusters/zones/{zoneId}/centers', [CenterController::class, 'centersByZone'])->name('elts.clusters.zones.centers');
 
     // Team Based Code (TBC)
     Route::get('/tbcs', [TbcController::class, 'tbcs'])->name('tbcs')->middleware('permission:access-tbc-module');
@@ -215,6 +224,60 @@ Route::middleware(['web', 'auth:sanctum'])->group(function () {
     Route::get('/medications/download-template', [MedicationController::class, 'downloadTemplate'])->name('medications.download-template');
     Route::get('/evaluations/medications', [MedicationController::class, 'getMedications'])->name('evaluations.medications');
     Route::get('/evaluations/headers', [MedicationController::class, 'getHeaders'])->name('evaluations.headers');
+
+    // Nationalities
+    Route::get('/nationalities', [NationalityController::class, 'nationalities'])->name('nationalities')->middleware('permission:access-nationality-module');
+    Route::post('/nationalities/create', [NationalityController::class, 'create'])->name('nationalities.create');
+    Route::put('/nationalities/edit/{nationality}', [NationalityController::class, 'edit'])->name('nationalities.edit');
+    Route::delete('/nationalities/delete/{nationality}', [NationalityController::class, 'destroy'])->name('nationalities.destroy');
+    Route::post('/nationalities/import', [NationalityController::class, 'import'])->name('nationalities.import');
+    Route::get('/nationalities/download-template', [NationalityController::class, 'downloadTemplate'])->name('nationalities.download-template');
+    Route::get('/nationalities/employee', [NationalityController::class, 'employeeNationalities'])->name('nationalities.employee');
+
+    // Healthcare Fields
+    Route::get('/sectors', [SectorController::class, 'sectors'])->name('sectors')->middleware('permission:access-sector-module');
+    Route::post('/sectors/create', [SectorController::class, 'create'])->name('sectors.create');
+    Route::put('/sectors/edit/{sector}', [SectorController::class, 'edit'])->name('sectors.edit');
+    Route::delete('/sectors/delete/{sector}', [SectorController::class, 'destroy'])->name('sectors.destroy');
+    Route::post('/sectors/import', [SectorController::class, 'import'])->name('sectors.import');
+    Route::get('/sectors/download-template', [SectorController::class, 'downloadTemplate'])->name('sectors.download-template');
+    Route::get('/sectors/employee', [SectorController::class, 'employeeSectors'])->name('sectors.employee');
+
+    // Healthcare Specialties
+    Route::get('/specialties', [SpecialtyController::class, 'specialties'])->name('specialties')->middleware('permission:access-specialty-module');
+    Route::post('/specialties/create', [SpecialtyController::class, 'create'])->name('specialties.create');
+    Route::put('/specialties/edit/{specialty}', [SpecialtyController::class, 'edit'])->name('specialties.edit');
+    Route::delete('/specialties/delete/{specialty}', [SpecialtyController::class, 'destroy'])->name('specialties.destroy');
+    Route::post('/specialties/import', [SpecialtyController::class, 'import'])->name('specialties.import');
+    Route::get('/specialties/download-template', [SpecialtyController::class, 'downloadTemplate'])->name('specialties.download-template');
+    Route::get('/specialties/employee', [SpecialtyController::class, 'employeeSpecialties'])->name('specialties.employee');
+
+    // Healthcare Ranks
+    Route::get('/ranks', [RankController::class, 'ranks'])->name('ranks')->middleware('permission:access-rank-module');
+    Route::post('/ranks/create', [RankController::class, 'create'])->name('ranks.create');
+    Route::put('/ranks/edit/{rank}', [RankController::class, 'edit'])->name('ranks.edit');
+    Route::delete('/ranks/delete/{rank}', [RankController::class, 'destroy'])->name('ranks.destroy');
+    Route::post('/ranks/import', [RankController::class, 'import'])->name('ranks.import');
+    Route::get('/ranks/download-template', [RankController::class, 'downloadTemplate'])->name('ranks.download-template');
+    Route::get('/ranks/employee', [RankController::class, 'employeeRanks'])->name('ranks.employee');
+
+    // Saudi Health Council Category
+    Route::get('/categories', [CategoryController::class, 'categories'])->name('categories')->middleware('permission:access-category-module');
+    Route::post('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::put('/categories/edit/{category}', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::delete('/categories/delete/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::post('/categories/import', [CategoryController::class, 'import'])->name('categories.import');
+    Route::get('/categories/download-template', [CategoryController::class, 'downloadTemplate'])->name('categories.download-template');
+    Route::get('/categories/category', [CategoryController::class, 'getShcCategory'])->name('categories.category');
+
+    // Departments
+    Route::get('/departments', [DepartmentController::class, 'departments'])->name('departments')->middleware('permission:access-department-module');
+    Route::post('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
+    Route::put('/departments/edit/{department}', [DepartmentController::class, 'edit'])->name('departments.edit');
+    Route::delete('/departments/delete/{department}', [DepartmentController::class, 'destroy'])->name('departments.destroy');
+    Route::post('/departments/import', [DepartmentController::class, 'import'])->name('departments.import');
+    Route::get('/departments/download-template', [DepartmentController::class, 'downloadTemplate'])->name('departments.download-template');
+    Route::get('/departments/employee', [DepartmentController::class, 'employeeDepartments'])->name('departments.employee');
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

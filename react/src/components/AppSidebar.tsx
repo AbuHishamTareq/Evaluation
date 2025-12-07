@@ -1,22 +1,55 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
-  Users, Home, LockKeyholeOpen, ShieldClose, Fingerprint, Settings,
-  Building2, MapPinned, CrossIcon, HospitalIcon, BookOpen, Brain,
-  DatabaseZap, MessageCircleQuestion, ListChecks, ChartColumnIcon,
+  Users,
+  Home,
+  LockKeyholeOpen,
+  ShieldClose,
+  Fingerprint,
+  Settings,
+  Building2,
+  MapPinned,
+  CrossIcon,
+  HospitalIcon,
+  BookOpen,
+  Brain,
+  DatabaseZap,
+  MessageCircleQuestion,
+  ListChecks,
+  ChartColumnIcon,
   TableConfig,
   Pill,
+  User,
+  MapIcon,
+  StethoscopeIcon,
+  BookPlus,
+  HeartHandshake,
+  HeartPulse,
+  Building,
+  Cross,
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
-  Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-  SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter, useSidebar,
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarHeader,
+  SidebarFooter,
+  useSidebar,
 } from "../components/ui/sidebar";
 import { useLanguage } from "../hooks/useLanguage";
 import { useApp } from "../hooks/useApp";
 import { useEffect, useState } from "react";
 
-function usePersistentState(key: string, initialValue: Record<string, boolean>) {
+function usePersistentState(
+  key: string,
+  initialValue: Record<string, boolean>
+) {
   const [state, setState] = useState<Record<string, boolean>>(() => {
     const saved = localStorage.getItem(key);
     return saved ? JSON.parse(saved) : initialValue;
@@ -37,9 +70,27 @@ const navigationItems = [
     color: "text-black",
     permission: "access-user-module",
     children: [
-      { title: "Permissions", url: "/permissions", icon: LockKeyholeOpen, permission: "access-permission-module", color: "text-red-600" },
-      { title: "Roles", url: "/roles", icon: ShieldClose, permission: "access-role-module", color: "text-amber-600" },
-      { title: "Users", url: "/users", icon: Users, permission: "access-user-module", color: "text-green-600" },
+      {
+        title: "Permissions",
+        url: "/permissions",
+        icon: LockKeyholeOpen,
+        permission: "access-permission-module",
+        color: "text-red-600",
+      },
+      {
+        title: "Roles",
+        url: "/roles",
+        icon: ShieldClose,
+        permission: "access-role-module",
+        color: "text-amber-600",
+      },
+      {
+        title: "Users",
+        url: "/users",
+        icon: Users,
+        permission: "access-user-module",
+        color: "text-green-600",
+      },
     ],
   },
   {
@@ -48,9 +99,91 @@ const navigationItems = [
     color: "text-red-600",
     permission: "access-center-module",
     children: [
-      { title: "PHC", url: "/centers", permission: 'access-center-module', icon: HospitalIcon, color: "text-indigo-600" },
-      { title: "Team Based Code", url: "/tbcs", permission: 'access-tbc-module', icon: BookOpen, color: "text-fuchsia-600" },
-      { title: "Medication", url: "/medications", permission: 'access-medication-module', icon: Pill, color: "text-teal-600" },
+      {
+        title: "PHC",
+        url: "/centers",
+        permission: "access-center-module",
+        icon: HospitalIcon,
+        color: "text-indigo-600",
+      },
+      {
+        title: "Team Based Code",
+        url: "/tbcs",
+        permission: "access-tbc-module",
+        icon: BookOpen,
+        color: "text-fuchsia-600",
+      },
+      {
+        title: "Medication",
+        url: "/medications",
+        permission: "access-medication-module",
+        icon: Pill,
+        color: "text-teal-600",
+      },
+    ],
+  },
+  {
+    title: "Human Resources",
+    icon: Users,
+    color: "text-green-600",
+    permission: "",
+    children: [
+      {
+        title: "Employee",
+        url: "/employees",
+        permission: "access-employee-module",
+        icon: User,
+        color: "text-indigo-600",
+      },
+      {
+        title: "Departments",
+        url: "/departments",
+        permission: "access-department-module",
+        icon: Building,
+        color: "text-violet-600",
+      },
+      {
+        title: "Clinics",
+        url: "/clinics",
+        permission: "access-clinic-module",
+        icon: Cross,
+        color: "text-red-800",
+      },
+      {
+        title: "Nationalities",
+        url: "/nationality",
+        permission: "access-nationality-module",
+        icon: MapIcon,
+        color: "text-green-600",
+      },
+      {
+        title: "Healthcare Fields",
+        url: "/sectors",
+        permission: "access-sector-module",
+        icon: StethoscopeIcon,
+        color: "text-orange-600",
+      },
+      {
+        title: "Healthcare Specialties",
+        url: "/specialties",
+        permission: "access-specialty-module",
+        icon: BookPlus,
+        color: "text-stone-600",
+      },
+      {
+        title: "Healthcare Ranks",
+        url: "/ranks",
+        permission: "access-rank-module",
+        icon: HeartHandshake,
+        color: "text-sky-600",
+      },
+      {
+        title: "SHC Category",
+        url: "/categories",
+        permission: "access-category-module",
+        icon: HeartPulse,
+        color: "text-rose-600",
+      },
     ],
   },
   {
@@ -58,9 +191,27 @@ const navigationItems = [
     icon: DatabaseZap,
     color: "text-yellow-600",
     children: [
-      { title: "Sections", url: "/sections", permission: 'access-section-module', icon: ListChecks, color: "text-violate-600" },
-      { title: "Domains", url: "/domains", permission: 'access-domain-module', icon: Brain, color: "text-pink-600" },
-      { title: "Questions", url: "/questions", permission: 'access-question-module', icon: MessageCircleQuestion, color: "text-teal-600" },
+      {
+        title: "Sections",
+        url: "/sections",
+        permission: "access-section-module",
+        icon: ListChecks,
+        color: "text-violate-600",
+      },
+      {
+        title: "Domains",
+        url: "/domains",
+        permission: "access-domain-module",
+        icon: Brain,
+        color: "text-pink-600",
+      },
+      {
+        title: "Questions",
+        url: "/questions",
+        permission: "access-question-module",
+        icon: MessageCircleQuestion,
+        color: "text-teal-600",
+      },
     ],
   },
   {
@@ -68,8 +219,20 @@ const navigationItems = [
     icon: ChartColumnIcon,
     color: "text-red-700",
     children: [
-      { title: "Manage Evaluations", url: "/evaluations", permission: 'manage-evaluations', icon: ChartColumnIcon, color: "text-green-800" },
-      { title: "Evaluation Forms", url: "/evaluations/evaluation-form", permission: 'access-evaluation-form', icon: ChartColumnIcon, color: "text-green-800" },
+      {
+        title: "Manage Evaluations",
+        url: "/evaluations",
+        permission: "manage-evaluations",
+        icon: ChartColumnIcon,
+        color: "text-green-800",
+      },
+      {
+        title: "Evaluation Forms",
+        url: "/evaluations/evaluation-form",
+        permission: "access-evaluation-form",
+        icon: ChartColumnIcon,
+        color: "text-green-800",
+      },
     ],
   },
   {
@@ -78,9 +241,27 @@ const navigationItems = [
     color: "text-blue-600",
     permission: "access-user-module",
     children: [
-      { title: "Dynamic Table Builder", url: "/dynamic-table", permission: 'access-dynamic-table-builder', icon: TableConfig, color: "text-sky-600" },
-      { title: "Elt", url: "/elts", permission: 'access-elt-module', icon: Building2, color: "text-red-600" },
-      { title: "Zone", url: "/zones", permission: 'access-zone-module', icon: MapPinned, color: "text-amber-600" },
+      {
+        title: "Dynamic Table Builder",
+        url: "/dynamic-table",
+        permission: "access-dynamic-table-builder",
+        icon: TableConfig,
+        color: "text-sky-600",
+      },
+      {
+        title: "Elt",
+        url: "/elts",
+        permission: "access-elt-module",
+        icon: Building2,
+        color: "text-red-600",
+      },
+      {
+        title: "Zone",
+        url: "/zones",
+        permission: "access-zone-module",
+        icon: MapPinned,
+        color: "text-amber-600",
+      },
     ],
   },
 ];
@@ -91,8 +272,11 @@ export function AppSidebar() {
   const location = useLocation();
   const currentPath = location.pathname;
   const { can } = useApp();
-  const [openMenus, setOpenMenus] = usePersistentState("sidebar-open-menus", {});
-  const isRtl = language === 'ar';
+  const [openMenus, setOpenMenus] = usePersistentState(
+    "sidebar-open-menus",
+    {}
+  );
+  const isRtl = language === "ar";
 
   const isActive = (path: string) => currentPath === path;
 
@@ -151,13 +335,15 @@ export function AppSidebar() {
               {item.icon && <item.icon className={`w-4 h-4 ${item.color}`} />}
               <span className="text-slate-700">{item.title}</span>
             </div>
-            <span className="text-xs">{isOpen ? '−' : '+'}</span>
+            <span className="text-xs">{isOpen ? "−" : "+"}</span>
           </SidebarMenuButton>
 
           {isOpen && (
             <ul className="space-y-1 mt-1">
               {item.children
-                .filter((child: any) => !child.permission || can(child.permission))
+                .filter(
+                  (child: any) => !child.permission || can(child.permission)
+                )
                 .map((child: any) => renderNavItem(child, depth + 1))}
             </ul>
           )}
@@ -169,14 +355,22 @@ export function AppSidebar() {
       <SidebarMenuItem key={item.title}>
         <SidebarMenuButton
           asChild
-          className={`${getNavClass(isActive(item.url))} rounded-lg transition-all duration-200`}
+          className={`${getNavClass(
+            isActive(item.url)
+          )} rounded-lg transition-all duration-200`}
           style={{ paddingLeft: `${depth * 16 + 12}px` }}
         >
           <NavLink to={item.url} end>
             {item.icon && (
-              <item.icon className={`w-4 h-4 ${isActive(item.url) ? 'text-white' : item.color}`} />
+              <item.icon
+                className={`w-4 h-4 ${
+                  isActive(item.url) ? "text-white" : item.color
+                }`}
+              />
             )}
-            <span className={isActive(item.url) ? 'text-white' : 'text-slate-700'}>
+            <span
+              className={isActive(item.url) ? "text-white" : "text-slate-700"}
+            >
               {item.title}
             </span>
           </NavLink>
@@ -187,7 +381,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      side={isRtl ? 'right' : 'left'}
+      side={isRtl ? "right" : "left"}
       className="border-r border-blue-100 bg-gradient-to-b from-white to-blue-50/50"
     >
       <SidebarHeader className="border-b border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50">

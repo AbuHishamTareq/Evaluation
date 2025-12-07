@@ -49,6 +49,21 @@ class EltController extends Controller
         return response()->json($elts);
     }
 
+    public function clusters()
+    {
+        $clusters = Elt::all(['label', 'name']);
+        $clusters = $clusters->map(function ($cluster) {
+            return [
+                'value' => (string)$cluster->name,
+                'label' => $cluster->label,
+            ];
+        });
+
+        return response()->json([
+            'clusters' => $clusters
+        ]);
+    }
+
     public function create(EltRequest $request)
     {
         $elt = $request->validated();

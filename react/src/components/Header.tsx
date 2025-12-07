@@ -1,18 +1,18 @@
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { useLanguage } from '../hooks/useLanguage'
-import LanguageSwitcher from '../components/LanguageSwitcher';
-import { NavLink } from 'react-router-dom';
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import { useLanguage } from "../hooks/useLanguage";
+import LanguageSwitcher from "../components/LanguageSwitcher";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language } = useLanguage();
 
   const navItems = [
-    { label: t('nav.home'), to: '/' },
-    { label: t('nav.services'), to: '#services' },
-    { label: t('nav.about'), to: '#about' },
-    { label: t('nav.contact'), to: '#contact' }
+    { label: t("nav.home"), to: "/" },
+    { label: t("nav.services"), to: "#services" },
+    { label: t("nav.about"), to: "#about" },
+    { label: t("nav.contact"), to: "#contact" },
   ];
 
   return (
@@ -20,29 +20,30 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className='flex items-center space-x-3'>
-            <NavLink to={'/'}>
-              {
-                language === 'ar' ?
-                  (
-                    <img
-                      src="/images/logo-left.png"
-                      alt="Health Cluster Logo"
-                      className="w-full h-20 animate-pulse-slow"
-                    />
-                  ) : (
-                    <img
-                      src="/images/logo-right.png"
-                      alt="Health Cluster Logo"
-                      className="w-full h-20 animate-pulse-slow"
-                    />
-                  )
-              }
+          <div className="flex items-center space-x-3">
+            <NavLink to={"/"}>
+              {language === "ar" ? (
+                <img
+                  src="/images/logo-left.png"
+                  alt="Health Cluster Logo"
+                  className="w-full h-20 animate-pulse-slow"
+                />
+              ) : (
+                <img
+                  src="/images/logo-right.png"
+                  alt="Health Cluster Logo"
+                  className="w-full h-20 animate-pulse-slow"
+                />
+              )}
             </NavLink>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className={`hidden md:flex items-center ${language === 'ar' ? 'space-x-reverse space-x-8' : 'space-x-8'}`}>
+          <nav
+            className={`hidden md:flex items-center ${
+              language === "ar" ? "space-x-reverse space-x-8" : "space-x-8"
+            }`}
+          >
             {navItems.map((item) => (
               <NavLink
                 key={item.label}
@@ -57,14 +58,16 @@ const Header = () => {
               to="/login"
               className="bg-health-600 hover:bg-health-700 text-white w-fit px-4 py-2 rounded-lg inline-block text-center"
             >
-              {t('nav.login')}
+              {t("nav.login")}
             </NavLink>
-            <NavLink
-              to="/survey"
+            <a
+              href="https://141.147.130.80/ourcare"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-health-600 hover:bg-health-700 text-white w-fit px-4 py-2 rounded-lg inline-block text-center"
             >
-              {t('nav.getStarted')}
-            </NavLink>
+              Our Care
+            </a>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -83,7 +86,11 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <nav className="md:hidden mt-4 pb-4 border-t border-health-200">
-            <div className={`flex flex-col space-y-4 pt-4 ${language === 'ar' ? 'items-end' : 'items-start'}`}>
+            <div
+              className={`flex flex-col space-y-4 pt-4 ${
+                language === "ar" ? "items-end" : "items-start"
+              }`}
+            >
               {navItems.map((item) => (
                 <NavLink
                   key={item.label}
@@ -101,13 +108,13 @@ const Header = () => {
                 to="/login"
                 className="bg-health-600 hover:bg-health-700 text-white w-fit px-4 py-2 rounded-lg inline-block text-center"
               >
-                {t('nav.login')}
+                {t("nav.login")}
               </NavLink>
               <NavLink
                 to="/survey"
                 className="bg-health-600 hover:bg-health-700 text-white w-fit px-4 py-2 rounded-lg inline-block text-center"
               >
-                {t('nav.getStarted')}
+                {t("nav.getStarted")}
               </NavLink>
             </div>
           </nav>

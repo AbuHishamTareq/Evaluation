@@ -58,9 +58,26 @@ class ZoneController extends Controller
         ]);
     }
 
-    public function create(ZoneRequest $request) {
+    public function zonesByCluster($clusterId)
+    {
+        $zones = Zone::select('label', 'name')->where('elt_id', $clusterId)->get();
+
+        $zones = $zones->map(function ($zone) {
+            return [
+                'value' => $zone->name,
+                'label' => $zone->label,
+            ];
+        });
+
+        return response()->json([
+            'zones' => $zones,
+        ]);
+    }
+
+    public function create(ZoneRequest $request)
+    {
         $zone = Zone::create([
-            'label' => $request->input('label'), 
+            'label' => $request->input('label'),
             'name' => Str::slug($request->input('label')),
             'elt_id' => $request->input('elt'),
         ]);
@@ -76,7 +93,8 @@ class ZoneController extends Controller
         ], 500);
     }
 
-    public function edit(ZoneRequest $request, Zone $zone) {
+    public function edit(ZoneRequest $request, Zone $zone)
+    {
         if ($zone) {
             $zone->label = $request->input('label');
             $zone->elt_id = $request->input('elt');
@@ -92,7 +110,8 @@ class ZoneController extends Controller
         ], 500);
     }
 
-    public function destroy(Zone $zone) {
+    public function destroy(Zone $zone)
+    {
         if (!$zone) {
             return response()->json([
                 'error' => 'Zone not found.'

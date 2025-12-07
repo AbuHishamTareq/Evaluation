@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('zones', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->foreignId('elt_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
 
@@ -23,7 +23,7 @@ return new class extends Migration
             // Optional if querying by name and elt_id often
             $table->index(['elt_id', 'name']);
         });
-    }   
+    }
 
     /**
      * Reverse the migrations.

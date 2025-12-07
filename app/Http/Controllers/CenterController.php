@@ -72,6 +72,21 @@ class CenterController extends Controller
         ]);
     }
 
+    public function centersbyZone($zoneId) {
+        $centers = Center::select('name', 'label', 'phc_moh_code')->where('zone_id', $zoneId)->get();
+
+        $centers = $centers->map(function ($center) {
+            return [
+                'value' => $center->name,
+                'label' => $center->label,
+                'phcCode' => $center->phc_moh_code,
+            ];
+        });
+
+        return response()->json([
+            'centers' => $centers,
+        ]);
+    }
 
     public function create(CenterRequest $request)
     {
@@ -391,7 +406,7 @@ class CenterController extends Controller
             ], 500);
         }
     }
-    
+
     public function getTeamBasedCodes()
     {
         $teamBasedCodes = Tbc::select('id', 'code', 'name')->get();

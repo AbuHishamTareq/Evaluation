@@ -8,7 +8,7 @@ import * as ToastPrimitives from "@radix-ui/react-toast";
 import type { ToastActionElement, ToastProps } from "../components/ui/toast";
 import type { LucideIcon } from "lucide-react";
 
-type Language = "en" | "ar";
+export type Language = "en" | "ar";
 type Role = string;
 type Permission = string;
 

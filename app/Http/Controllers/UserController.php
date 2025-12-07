@@ -166,7 +166,7 @@ class UserController extends Controller
         ]);
 
         if ($user) {
-            $user->syncRoles($request->input('role', [])); // or `roles`, based on your frontend key
+             // or `roles`, based on your frontend key
 
             return response()->json([
                 'message' => 'User created Successfully!'
