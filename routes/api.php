@@ -4,11 +4,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CenterController;
 use App\Http\Controllers\CenterSurveyResponseController;
+use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DomainController;
 use App\Http\Controllers\DynamicTableController;
 use App\Http\Controllers\EltController;
 use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\HcRoleController;
 use App\Http\Controllers\MedicationController;
 use App\Http\Controllers\NationalityController;
 use App\Http\Controllers\PermissionController;
@@ -19,6 +21,7 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\TbcController;
+use App\Http\Controllers\TbcRoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ZoneController;
 use Illuminate\Support\Facades\Route;
@@ -93,6 +96,7 @@ Route::middleware(['web', 'auth:sanctum'])->group(function () {
     Route::delete('/tbcs/delete/{tbc}', [TbcController::class, 'destroy'])->name('tbcs.destroy');
     Route::post('/tbcs/import', [TbcController::class, 'import'])->name('tbcs.import');
     Route::get('/tbcs/download-template', [TbcController::class, 'downloadTemplate'])->name('tbcs.download-template');
+    Route::get('/tbcs/phc/{phcId}', [TbcController::class, 'tbcsByPhc'])->name('tbcs.phc');
 
     //Sections
     Route::get('/sections', [SectionController::class, 'sections'])->name('sections')->middleware('permission:access-section-module');
@@ -278,6 +282,33 @@ Route::middleware(['web', 'auth:sanctum'])->group(function () {
     Route::post('/departments/import', [DepartmentController::class, 'import'])->name('departments.import');
     Route::get('/departments/download-template', [DepartmentController::class, 'downloadTemplate'])->name('departments.download-template');
     Route::get('/departments/employee', [DepartmentController::class, 'employeeDepartments'])->name('departments.employee');
+
+    // Clinics
+    Route::get('/clinics', [ClinicController::class, 'clinics'])->name('clinics')->middleware('permission:access-clinic-module');
+    Route::post('/clinics/create', [ClinicController::class, 'create'])->name('clinics.create');
+    Route::put('/clinics/edit/{clinic}', [ClinicController::class, 'edit'])->name('clinics.edit');
+    Route::delete('/clinics/delete/{clinic}', [ClinicController::class, 'destroy'])->name('clinics.destroy');
+    Route::post('/clinics/import', [ClinicController::class, 'import'])->name('clinics.import');
+    Route::get('/clinics/download-template', [ClinicController::class, 'downloadTemplate'])->name('clinics.download-template');
+    Route::get('/clinics/employee', [ClinicController::class, 'employeeClinics'])->name('clinics.employee');
+
+    // Healthcare Roles & Administration
+    Route::get('/healthcareRoles', [HcRoleController::class, 'healthcareRoles'])->name('healthcareRoles')->middleware('permission:access-healthcare-role-and-administration');
+    Route::post('/healthcareRoles/create', [HcRoleController::class, 'create'])->name('healthcareRoles.create');
+    Route::put('/healthcareRoles/edit/{hcRole}', [HcRoleController::class, 'edit'])->name('healthcareRoles.edit');
+    Route::delete('/healthcareRoles/delete/{hcRole}', [HcRoleController::class, 'destroy'])->name('healthcareRoles.destroy');
+    Route::post('/healthcareRoles/import', [HcRoleController::class, 'import'])->name('healthcareRoles.import');
+    Route::get('/healthcareRoles/download-template', [HcRoleController::class, 'downloadTemplate'])->name('healthcareRoles.download-template');
+    Route::get('/healthcareRoles/employee', [HcRoleController::class, 'employeeHcRoles'])->name('healthcareRoles.employee');
+
+    // Team Based Code Role
+    Route::get('/tbcRoles', [TbcRoleController::class, 'tbcRoles'])->name('tbcRoles')->middleware('permission:access-tbc-role-module');
+    Route::post('/tbcRoles/create', [TbcRoleController::class, 'create'])->name('tbcRoles.create');
+    Route::put('/tbcRoles/edit/{clinic}', [TbcRoleController::class, 'edit'])->name('tbcRoles.edit');
+    Route::delete('/tbcRoles/delete/{clinic}', [TbcRoleController::class, 'destroy'])->name('tbcRoles.destroy');
+    Route::post('/tbcRoles/import', [TbcRoleController::class, 'import'])->name('tbcRoles.import');
+    Route::get('/tbcRoles/download-template', [TbcRoleController::class, 'downloadTemplate'])->name('tbcRoles.download-template');
+    Route::get('/tbcRoles/employee', [TbcRoleController::class, 'employeeTbcRoles'])->name('tbcRoles.employee');
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

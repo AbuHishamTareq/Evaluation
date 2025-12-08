@@ -69,6 +69,27 @@ class TbcController extends Controller
         ]);
     }
 
+    public function tbcsByPhc($phcId)
+    {
+        $tbcs = Tbc::select('code', 'name')->where('center_id', $phcId)->get();
+
+        if ($tbcs) {
+            $tbcs = $tbcs->map(function ($tbcs) {
+                return [
+                    'value' => (string) $tbcs->name,
+                    'label' => $tbcs->code,
+                ];
+            });
+            return response()->json([
+                'tbcs' => $tbcs,
+            ]);
+        }
+
+        return response()->json([
+            'error' => 'Team Based Code not found.',
+        ], 404);
+    }
+
     public function create(TbcRequest $request)
     {
         $center = Tbc::create([

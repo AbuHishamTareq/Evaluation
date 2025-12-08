@@ -28,6 +28,16 @@ export interface JobDetailsInfo {
   hcSpecialty: string;
   hcRank: string;
   shcCategory: string;
+  clinicName: string;
+  hcRoleName: string;
+  joiningDate: string;
+  hireDate: string;
+  isCareProvider: boolean;
+  isCareTeam: boolean;
+  tbc: string;
+  tbcRole: string;
+  contract: string;
+  empNo: string;
 }
 
 export interface Education {
@@ -111,6 +121,16 @@ export const initialFormData: FormData = {
     hcSpecialty: "",
     hcRank: "",
     shcCategory: "",
+    clinicName: "",
+    hcRoleName: "",
+    joiningDate: "",
+    hireDate: "",
+    isCareProvider: false,
+    isCareTeam: false,
+    tbc: "",
+    tbcRole: "",
+    contract: "",
+    empNo: "",
   },
   education: [
     {

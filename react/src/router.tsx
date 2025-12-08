@@ -28,6 +28,9 @@ import { Category } from "./pages/Category";
 import { Employee } from "./pages/Employee";
 import { CreateEmployee } from "./pages/CreateEmployee";
 import { Department } from "./pages/Department";
+import { Clinic } from "./pages/Clinic";
+import { HcRole } from "./pages/HcRole";
+import { TbcRole } from "./pages/TbcRole";
 
 const router = createBrowserRouter([
   {
@@ -155,7 +158,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/clinics",
-        element: <Department />,
+        element: <Clinic />,
+      },
+      {
+        path: "/healthcareRoles",
+        element: <HcRole />,
+      },
+      {
+        path: "/tbcroles",
+        element: <TbcRole />,
       },
     ],
   },

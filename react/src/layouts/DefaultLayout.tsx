@@ -24,7 +24,7 @@ const DefaultLayout = () => {
   return (
     <div>
       <SidebarProvider>
-        <div className="min-h-screen flex w-full">
+        <div className="h-screen flex w-full">
           <AppSidebar />
           <SidebarInset className="flex-1 flex flex-col">
             <ScrollToTop />

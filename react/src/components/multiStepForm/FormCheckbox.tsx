@@ -8,7 +8,6 @@ interface FormCheckboxProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
   className?: string;
-  description?: string;
 }
 
 export const FormCheckbox = ({
@@ -17,7 +16,6 @@ export const FormCheckbox = ({
   checked,
   onChange,
   className,
-  description,
 }: FormCheckboxProps) => {
   return (
     <div className={cn("flex items-start space-x-3", className)}>
@@ -25,7 +23,7 @@ export const FormCheckbox = ({
         id={name}
         checked={checked}
         onCheckedChange={onChange}
-        className="mt-0.5"
+        className="mt-0.5 size-5 rounded-full border-2 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
       />
       <div className="space-y-1">
         <Label
@@ -34,9 +32,6 @@ export const FormCheckbox = ({
         >
           {label}
         </Label>
-        {description && (
-          <p className="text-xs text-muted-foreground">{description}</p>
-        )}
       </div>
     </div>
   );

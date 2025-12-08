@@ -168,6 +168,7 @@ export const MultiStepForm = () => {
               setFormData({ ...formData, jobDetailsInfo: data })
             }
             errors={errors}
+            phcId={formData.phcInfo.phcId}
           />
         );
       // case 2:

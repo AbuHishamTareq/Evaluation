@@ -27,6 +27,8 @@ import {
   HeartPulse,
   Building,
   Cross,
+  BriefcaseMedical,
+  BriefcaseBusiness,
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
@@ -44,7 +46,31 @@ import {
 } from "../components/ui/sidebar";
 import { useLanguage } from "../hooks/useLanguage";
 import { useApp } from "../hooks/useApp";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+
+// Helper: Render title with optional line breaks
+const renderTitle = (title: string, isActiveRoute = false) => {
+  const className = isActiveRoute ? "text-white" : "text-slate-700";
+  if (typeof title !== "string") return title;
+
+  const lines = title.split("\n");
+  if (lines.length === 1) {
+    return <span className={className}>{title}</span>;
+  }
+
+  return (
+    <span className={className}>
+      {lines[0]}
+      <br />
+      {lines.slice(1).map((line, i) => (
+        <Fragment key={i}>
+          {line}
+          {i < lines.slice(1).length - 1}
+        </Fragment>
+      ))}
+    </span>
+  );
+};
 
 function usePersistentState(
   key: string,
@@ -114,6 +140,13 @@ const navigationItems = [
         color: "text-fuchsia-600",
       },
       {
+        title: "Team Based Code Role",
+        url: "/tbcroles",
+        permission: "access-tbc-role-module",
+        icon: BriefcaseBusiness,
+        color: "text-orange-800",
+      },
+      {
         title: "Medication",
         url: "/medications",
         permission: "access-medication-module",
@@ -126,7 +159,7 @@ const navigationItems = [
     title: "Human Resources",
     icon: Users,
     color: "text-green-600",
-    permission: "",
+    permission: "access-hr-module",
     children: [
       {
         title: "Employee",
@@ -183,6 +216,13 @@ const navigationItems = [
         permission: "access-category-module",
         icon: HeartPulse,
         color: "text-rose-600",
+      },
+      {
+        title: "Healthcare Roles\n& Administration",
+        url: "/healthcareRoles",
+        permission: "access-healthcare-role-and-administration",
+        icon: BriefcaseMedical,
+        color: "text-sky-800",
       },
     ],
   },
@@ -333,7 +373,7 @@ export function AppSidebar() {
           >
             <div className="flex items-center gap-2">
               {item.icon && <item.icon className={`w-4 h-4 ${item.color}`} />}
-              <span className="text-slate-700">{item.title}</span>
+              {renderTitle(item.title)}
             </div>
             <span className="text-xs">{isOpen ? "−" : "+"}</span>
           </SidebarMenuButton>
@@ -368,11 +408,7 @@ export function AppSidebar() {
                 }`}
               />
             )}
-            <span
-              className={isActive(item.url) ? "text-white" : "text-slate-700"}
-            >
-              {item.title}
-            </span>
+            {renderTitle(item.title, isActive(item.url))}
           </NavLink>
         </SidebarMenuButton>
       </SidebarMenuItem>

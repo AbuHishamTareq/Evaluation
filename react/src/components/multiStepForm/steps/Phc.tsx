@@ -206,11 +206,11 @@ export const Phc = ({ data, onChange, errors = {} }: PhcProps) => {
           error={errors.phcName}
         />
         <FormInput
-          label="Primary Health Care Code"
+          label="Primary Healthcare Code"
           name="phcCode"
           value={data.phcCode}
           onChange={(v) => handleChange("phcCode", v)}
-          placeholder="Primary health care code"
+          placeholder="Primary Healthcare Code"
           disabled={true}
         />
       </div>

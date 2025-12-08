@@ -65,6 +65,13 @@ export const PermissionModelFormConfig = {
         { label: "Employee", value: "employee", key: "employee" },
         { label: "Departments", value: "departments", key: "departments" },
         { label: "Clinics", value: "clinics", key: "clinics" },
+        { label: "Human Resources", value: "hr", key: "hr" },
+        {
+          label: "Healthcare Roles & Administration",
+          value: "Healthcare roles",
+          key: "hcroles",
+        },
+        { label: "Team Based Code Role", value: "Tbc Roles", key: "tbcRoles" },
       ],
     },
     {

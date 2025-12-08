@@ -141,6 +141,7 @@ export const Personal = ({ data, onChange, errors = {} }: PersonalProps) => {
           value={data.age}
           onChange={(v) => handleChange("age", v)}
           disabled={true}
+          placeholder="Age"
         />
         <FormSelect
           label="Nationality"

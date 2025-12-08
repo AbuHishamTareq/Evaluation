@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DepartmentRequest extends FormRequest
+class HcRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,8 @@ class DepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'en_department' => 'required|string',
-            'ar_department' => 'required|string',
+            'en_hcRole' => 'required|string',
+            'ar_hcRole' => 'required|string',
         ];
     }
 }
